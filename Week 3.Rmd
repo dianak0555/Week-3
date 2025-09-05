@@ -1,0 +1,98 @@
+---
+title: "Week 3"
+output: html_document
+date: "2025-09-03"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+social_media <- read_csv("socialMediaAddiction.csv")
+
+glimpse(social_media)
+social_media
+```
+```{r}
+social_media %>%
+  ggplot(mapping = aes(x=Avg_Daily_Usage_Hours))+
+  geom_histogram()
+
+social_media %>%
+  ggplot(mapping = aes(y=Sleep_Hours_Per_Night))+
+  geom_histogram()
+```
+#Step 5
+#The histogram for the average daily usuage ours is nearly symmetrical with a peak at around 4.5 hours, except that there is a sudden drop of count around 5 hours.
+#The histogram for the sleep hours per night is also near symmetrical shape with a peak around 7 hours.
+
+
+#Step 6
+#To visualize relationship between two variables, we would want to use scatterplot with average screen time on x axis and sleep hours on y axis. This is because scatter plot can directly show relationship bewteen two continuous variables.
+
+```{r}
+social_media %>%
+  ggplot(mapping = aes(x=Avg_Daily_Usage_Hours, y=Sleep_Hours_Per_Night))+
+  geom_point()
+```
+#Step 8
+#There is a negative correlation bewteen average daily usuage hours and sleep hours per night.
+
+#Step 9
+#We would use the box plot to visualize this relationship, with type of social media on x axis and the average daily usuage hours on y axis. This is because box plots can visualize the relationship between categorical and numerical variables.
+
+```{r}
+social_media %>%
+  ggplot(mapping = aes(x=Avg_Daily_Usage_Hours, y=Most_Used_Platform))+
+  geom_boxplot()
+```
+#Step 11
+#There seems to be no correlation between the social media platform and the average daily usage for most of the platforms. However, there are certain platforms that differ greatly from others. For example, if most used platform was LinkedIn or LINE, the average usage was between 2 to 4 hours, whereas if the platform was WeCHAT, the average usage is about 5.5 to 8 hours. 
+
+#Step 12
+#Does the relationship bewteen between relationship conflict caused by social media and daily usage of social media vary by the student academic level?
+
+#Step 13
+#I would use box plots with sub-columns to describe how the relationship bewteen social media usage and conflicts is varied by academic level I would use social media usuage hours as x axis and academic level as sub-column (high school, undergraduate, or graduate level), and conflicts caused as y axis.
+
+```{r}
+social_media %>%
+  ggplot(mapping = aes(x=Avg_Daily_Usage_Hours, y=Conflicts_Over_Social_Media))+
+  geom_boxplot()+
+  facet_wrap(~Academic_Level)
+```
+#Step 15
+#Based on the generated box plot, the education level does not seem to significantly vary the relationship between average daily usage and number of conflicts over social media. For graduate sub-column, we only see one "box" that represent the lower quartile, from which we can infer that the data points in the upper quartile are heavily clumped together. Similarly, for high school sub-column, we do not see any boxes, which could mean the data are very heavily clumped, or there are simply not enough data points to draw a box plot.
+
+
+#Next Step
+#Do gender and daily average social media usage have correlation?
+```{r}
+social_media %>%
+  ggplot(mapping = aes(x=Avg_Daily_Usage_Hours, y=Gender, fill=Gender))+
+  geom_violin()
+```
+#I created a violin plot, which shows the scale in terms of area, with gender as y axis and average social media usage as x axis. I also filled each gender with different colors. Based on the figure, both gender seem to have similar range. Female seem to have slightly greater median average usage in hours, although it does not seem to be statistically significant.
+
+#I chose this particular geometry, because I believe the shape is very visual and interactive compared to other data visualization methods, with each data point contributing to the area of the violin shape. I believe this graph would be a good fit if we want to compare a few categorical datas on how often they show corresponding numerical data.
